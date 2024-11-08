@@ -1,16 +1,29 @@
+// Em render_manager.h (Arquivos de Cabeçalho/Managers/render_manager.h)
 #ifndef RENDER_MANAGER_H
 #define RENDER_MANAGER_H
 
-#include "game.h"
-#include "helicopter.h"
-#include "dinosaur.h"
-#include "missile.h"
-#include "truck.h"
-#include "depot.h"
-#include "console_manager.h"
+#include "console_maneger.h"  // para usar as funções de console
+// ... outros includes necessários
 
 class RenderManager {
-    // ... definição da classe
+public:
+    static void drawScene();
+    static void drawHelicopter(const Helicopter& helicopter);
+    static void drawDepoit();
+    static void drawTruck();
+    static void drawDepoit();
+    static void eraseDino();
+    static void eraseTruck();
+    static void eraseHelicopter();
+    static void moveDinoRight();
+    static void moveDinoLeft();
+    static void moveHelicopterRight();
+    static void moveHelicopterLeft();
+    static void moveTruckRight();
+    static void moveTruckLeft();
+    static void moveMissileRight();
+    static void moveMissileLeft();
+
 };
 
 #endif
