@@ -127,11 +127,33 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="collision_manager.cpp" />
+    <ClCompile Include="console_manager.cpp" />
+    <ClCompile Include="depot.cpp" />
+    <ClCompile Include="dinosaur.cpp" />
+    <ClCompile Include="dinosaur_generator_thread.cpp" />
+    <ClCompile Include="dinosaur_thread.cpp" />
+    <ClCompile Include="gameobject.cpp" />
+    <ClCompile Include="game_state.cpp" />
     <ClCompile Include="Helicopter.cpp" />
-    <ClCompile Include="Origem.cpp" />
+    <ClCompile Include="helicopter_thread.cpp" />
+    <ClCompile Include="input_thread.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="missile.cpp" />
+    <ClCompile Include="missile_thread.cpp" />
+    <ClCompile Include="render_manager.cpp" />
+    <ClCompile Include="render_thread.cpp" />
+    <ClCompile Include="truck.cpp" />
+    <ClCompile Include="truck_thread.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="collision_manager.h" />
     <ClInclude Include="depot.h" />
+    <ClInclude Include="dinosaur_generator_thread.h" />
+    <ClInclude Include="dinosaur_thread.h" />
+    <ClInclude Include="input_thread.h" />
+    <ClInclude Include="missile_thread.h" />
+    <ClInclude Include="render_thread.h" />
     <ClInclude Include="truck.h" />
     <ClInclude Include="dinosaur.h" />
     <ClInclude Include="game.h" />
@@ -142,6 +164,7 @@
     <ClInclude Include="console_maneger.h" />
     <ClInclude Include="missile.h" />
     <ClInclude Include="render_manager.h" />
+    <ClInclude Include="truck_thread.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

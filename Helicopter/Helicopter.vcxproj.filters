@@ -19,25 +19,82 @@
     <Filter Include="Arquivos de Cabeçalho\Entities">
       <UniqueIdentifier>{e0646567-f43f-4d11-b8b8-bfbc707986e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Arquivos de Cabeçalho\Managers">
+      <UniqueIdentifier>{b671194c-6aad-4b15-b1d2-a6e360a9ceb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Arquivos de Cabeçalho\Threads">
+      <UniqueIdentifier>{1862a0cf-e28b-46ea-8ba3-866e3bd0cccb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Arquivos de Origem\Core">
+      <UniqueIdentifier>{3c12e03b-6782-4eb5-a52b-5acf274ef5c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Arquivos de Origem\Entities">
+      <UniqueIdentifier>{be9700f7-e639-4992-af99-f3fb9750b710}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Arquivos de Origem\Manegers">
+      <UniqueIdentifier>{cc7d1cb3-3612-4392-9650-4bfe1acb8145}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Arquivos de Origem\Threads">
+      <UniqueIdentifier>{4be51ad6-be34-49ca-92f2-6705ec7cb412}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="collision_manager.cpp">
+      <Filter>Arquivos de Origem\Manegers</Filter>
+    </ClCompile>
+    <ClCompile Include="console_manager.cpp">
+      <Filter>Arquivos de Origem\Manegers</Filter>
+    </ClCompile>
+    <ClCompile Include="depot.cpp">
+      <Filter>Arquivos de Origem\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="dinosaur.cpp">
+      <Filter>Arquivos de Origem\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="game_state.cpp">
+      <Filter>Arquivos de Origem\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="dinosaur_generator_thread.cpp">
+      <Filter>Arquivos de Origem\Threads</Filter>
+    </ClCompile>
+    <ClCompile Include="dinosaur_thread.cpp">
+      <Filter>Arquivos de Origem\Threads</Filter>
+    </ClCompile>
+    <ClCompile Include="gameobject.cpp">
+      <Filter>Arquivos de Origem\Core</Filter>
+    </ClCompile>
     <ClCompile Include="Helicopter.cpp">
-      <Filter>Arquivos de Origem</Filter>
+      <Filter>Arquivos de Origem\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="Origem.cpp">
-      <Filter>Arquivos de Origem</Filter>
+    <ClCompile Include="helicopter_thread.cpp">
+      <Filter>Arquivos de Origem\Threads</Filter>
+    </ClCompile>
+    <ClCompile Include="input_thread.cpp">
+      <Filter>Arquivos de Origem\Threads</Filter>
+    </ClCompile>
+    <ClCompile Include="missile.cpp">
+      <Filter>Arquivos de Origem\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="missile_thread.cpp">
+      <Filter>Arquivos de Origem\Threads</Filter>
+    </ClCompile>
+    <ClCompile Include="render_manager.cpp">
+      <Filter>Arquivos de Origem\Manegers</Filter>
+    </ClCompile>
+    <ClCompile Include="render_thread.cpp">
+      <Filter>Arquivos de Origem\Threads</Filter>
+    </ClCompile>
+    <ClCompile Include="truck.cpp">
+      <Filter>Arquivos de Origem\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="truck_thread.cpp">
+      <Filter>Arquivos de Origem\Threads</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="console_maneger.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="render_manager.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="helicopter_thread.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
     <ClInclude Include="game.h">
       <Filter>Arquivos de Cabeçalho\Core</Filter>
     </ClInclude>
@@ -61,6 +118,36 @@
     </ClInclude>
     <ClInclude Include="depot.h">
       <Filter>Arquivos de Cabeçalho\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="console_maneger.h">
+      <Filter>Arquivos de Cabeçalho\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="render_manager.h">
+      <Filter>Arquivos de Cabeçalho\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="collision_manager.h">
+      <Filter>Arquivos de Cabeçalho\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="helicopter_thread.h">
+      <Filter>Arquivos de Cabeçalho\Threads</Filter>
+    </ClInclude>
+    <ClInclude Include="truck_thread.h">
+      <Filter>Arquivos de Cabeçalho\Threads</Filter>
+    </ClInclude>
+    <ClInclude Include="dinosaur_thread.h">
+      <Filter>Arquivos de Cabeçalho\Threads</Filter>
+    </ClInclude>
+    <ClInclude Include="dinosaur_generator_thread.h">
+      <Filter>Arquivos de Cabeçalho\Threads</Filter>
+    </ClInclude>
+    <ClInclude Include="missile_thread.h">
+      <Filter>Arquivos de Cabeçalho\Threads</Filter>
+    </ClInclude>
+    <ClInclude Include="render_thread.h">
+      <Filter>Arquivos de Cabeçalho\Threads</Filter>
+    </ClInclude>
+    <ClInclude Include="input_thread.h">
+      <Filter>Arquivos de Cabeçalho\Threads</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
