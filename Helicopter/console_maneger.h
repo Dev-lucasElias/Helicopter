@@ -1,10 +1,14 @@
-#ifndef HELICOPTER_H
-#define HELICOPTER_H
+#ifndef CONSOLE_MANAGER_H
+#define CONSOLE_MANAGER_H
+#include "render_manager.h"
+#include "game.h"
 
-#include "gameobject.h"
-
-class Helicopter : public GameObject {
-    // ... definição da classe
+class ConsoleManeger {
+public:
+    static void setColor(int textColor, int backgroundColor);
+    static void setConsoleSize(int width, int height);
+    static void gotoxy(int x, int y);
+    static void delay(unsigned int mseconds);
+    static void getup();
 };
-
 #endif

@@ -1,37 +1,26 @@
-#ifndef GAME_H
+#ifndef GAME_H  // Guarda de inclusão
 #define GAME_H
 
-// Includes necessários
 #include <iostream>
-#include <vector>
-#include <thread>
-#include <mutex>
-#include <condition_variable>
-#include <chrono>
-#include <random>
-#include <string>
 #include <windows.h>
-#include <conio.h>
 
-// Definições globais
-constexpr int SCREEN_WIDTH = 156;
-constexpr int SCREEN_HEIGHT = 40;
-constexpr int MAX_MISSILES = 20;
-constexpr int MAX_DINOSAURS = 10;
-constexpr int HELICOPTER_SPEED = 5;
-constexpr int DINO_SPEED = 3;
-constexpr int TRUCK_SPEED = 2;
-constexpr int DEPOT_WIDTH = 50;
-constexpr int DEPOT_HEIGHT = 30;
-constexpr int MISSILES_PER_SLOT = 1;
-constexpr int TRUCK_CAPACITY = 5;
-constexpr int MIN_MISSILES_WARNING = 3;
+namespace GameConstants {  // Coloca as constantes em um namespace para evitar conflitos
+    constexpr int SCREEN_WIDTH = 156;
+    constexpr int SCREEN_HEIGHT = 40;
+    constexpr int MAX_MISSILES = 20;
+    constexpr int MAX_DINOSAURS = 10;
+    constexpr int HELICOPTER_SPEED = 5;
+    constexpr int DINO_SPEED = 3;
+    constexpr int TRUCK_SPEED = 2;
+    constexpr int DEPOT_WIDTH = 50;
+    constexpr int DEPOT_HEIGHT = 30;
 
-// Cores
-constexpr int SKY_COLOR = 1;
-constexpr int GRASS_COLOR = 2;
-constexpr int DINO_COLOR = 3;
+    // Cores
+    constexpr int SKY_COLOR = 1;    // Azul
+    constexpr int GRASS_COLOR = 2;  // Verde
+    constexpr int DINO_COLOR = 3;   // Verde claro
+}
 
-using namespace std;
+using namespace GameConstants;  // Opcional: permite usar as constantes sem o prefixo GameConstants::
 
-#endif
+#endif // GAME_H
