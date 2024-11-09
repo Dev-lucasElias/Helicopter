@@ -1,53 +1,70 @@
-#include "console_maneger.h"  // para usar as funções de console
+// main.cpp
+#include <iostream>
+#include <vector>
+#include <thread>
+#include <mutex>
 #include "game.h"
-#include "render_manager.h" 
-
-
+#include "helicopter.h"
+#include "truck.h"
+#include "depot.h"
+#include "missile.h"
+#include "dinosaur.h"
+#include "render_manager.h"
+#include "console_maneger.h"
+#include "helicopter_thread.h"
+#include "truck_thread.h"
+#include "render_thread.h"
+#include "input_thread.h"
+#include "game_state.h"
 
 int main() {
-    CONSOLE_FONT_INFOEX cfi;
-    cfi.cbSize = sizeof(cfi);
-    cfi.nFont = 0;
-    cfi.dwFontSize.X = 0;                   // Largura dos caracteres
-    cfi.dwFontSize.Y = 12;                  // Altura
-    cfi.FontFamily = FF_DONTCARE;
-    cfi.FontWeight = FW_NORMAL;
-    wcscpy_s(cfi.FaceName, L"Consolas"); // Choose your font
-    SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &cfi);
-    system("mode con: lines=116 cols=328");
-    char ch = 0;
-    int i, frente = true, x=0, coluna;
-    ConsoleManeger::getup();
-    RenderManager::drawScene();
-    RenderManager::drawDepot(139, 27);
-    srand(time(NULL));
-    while (true) {
-        for (coluna = 0; coluna < 70; coluna++) {
-            RenderManager::moveHelicopterRight(coluna, 15);
-            ConsoleManeger::delay(10);
-            RenderManager::eraseHelicopter(coluna, 15);
-        }
-        /*for (coluna = 70; coluna > 58; coluna--) {
-            RenderManager::moveTruckLeft(coluna, 35);
-            ConsoleManeger::delay(100);
-            RenderManager::eraseTruckRight(coluna, 35);
-        }
-        for (coluna = 58; coluna <= 70; coluna++) {
-            RenderManager::moveTruckRight(coluna, 35);
-            ConsoleManeger::delay(100);
-            RenderManager::eraseTruckLeft(coluna, 35);
-        }*/
+    ConsoleManeger::setConsoleSize(156,55);
 
-        while (true) {
-            if (frente) {
-                RenderManager::moveDinoLeft(rand() % 2, x, 10);x++;
+    // Criação dos objetos do jogo
+    Helicopter helicopter;
+    Truck truck;
+    Depot depot;
+    std::vector<Missile> missiles(MAX_MISSILES);
+    std::vector<Dinosaur> dinosaurs(MAX_DINOSAURS);
+
+    // Mutexes
+    std::mutex missileMutex;
+    std::mutex dinoMutex;
+
+    // Criação das threads
+    std::vector<std::thread> threads;
+
+    // Inicializa as threads
+    threads.emplace_back(HelicopterThread::(helicopter, depot, missiles, missileMutex));
+    threads.emplace_back(TruckThread(truck, depot));
+    threads.emplace_back(RenderThread(helicopter, missiles, dinosaurs, truck, depot,
+        missileMutex, dinoMutex));
+    threads.emplace_back(InputThread(helicopter, missiles, missileMutex));
+
+    // Loop principal
+    while (GameState::isGameRunning()) {
+        {
+            std::lock_guard<std::mutex> lock(dinoMutex);
+            int aliveCount = std::count_if(dinosaurs.begin(), dinosaurs.end(),
+                [](const Dinosaur& d) { return d.isAlive(); });
+
+            if (aliveCount >= 5) {
+                std::cout << "\nGame Over: Terra condenada - 5 ou mais dinossauros vivos!\n";
+                GameState::setGameRunning(false);
             }
-            if (x == 120) frente = false;
-            if (!frente) {
-                RenderManager::moveDinoLeft(rand() % 2, x, 10);
-                x--;
-            }
-            if (x == 2) frente = true;
         }
+        ConsoleManeger::delay(100);
     }
+
+    // Aguarda todas as threads terminarem
+    for (auto& t : threads) {
+        t.join();
+    }
+
+    // Mensagem final
+    ConsoleManeger::clearScreen();
+    std::cout << "\nJogo finalizado!\n";
+    std::cout << "Pontuação final: " << GameState::getScore() << "\n";
+
+    return 0;
 }
