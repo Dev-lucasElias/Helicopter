@@ -14,6 +14,7 @@ public:
     // Funções de desenho base
     static void drawScene();
     static void drawDepot(int x, int y);  // Corrigido nome
+    static void drawDino(int x, int y);
 
     // Funções de movimento
     static void moveDinoRight(int jump, int x, int y);

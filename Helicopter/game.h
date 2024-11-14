@@ -5,8 +5,8 @@
 #include <windows.h>
 
 namespace GameConstants {  // Coloca as constantes em um namespace para evitar conflitos
-    constexpr int SCREEN_WIDTH = 156;
-    constexpr int SCREEN_HEIGHT = 40;
+    constexpr int SCREEN_WIDTH = 133;
+    constexpr int SCREEN_HEIGHT = 33;
     constexpr int MAX_MISSILES = 10;
     constexpr int MAX_DINOSAURS = 3;
     constexpr int HELICOPTER_SPEED = 3;

@@ -19,6 +19,10 @@
 
 int main() {
     // Criação dos objetos do jogo
-    ConsoleManeger::setConsoleSize(155, 56);
+    ConsoleManeger::setConsoleSize(133, 33);
+    RenderManager::drawScene();
+    RenderManager::drawDepot(116,20);
+    RenderManager::drawDino(60,24); //box dino = 17x9
+
 
 }

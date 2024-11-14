@@ -45,13 +45,54 @@ void RenderManager::drawDepot(int x, int y) {
     }
 
     // Desenhar a base da casa (ch�o) em verde
-    ConsoleManeger::setColor(11, 10);
-    ConsoleManeger::gotoxy(x + 4, y + 12); printf("%c%c%c%c%c%c%c%c%c%c%c%c%c", 219, 219, 219, 219, 219, 219, 219, 219, 219, 219, 219, 219, 219);
+    ConsoleManeger::setColor(15, 13);
+    ConsoleManeger::gotoxy(x - 5, y + 12); printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c", 219, 219, 219, 219, 219, 219, 219, 219, 219, 219, 219, 219, 219, 219, 219, 219, 219, 219, 219, 219, 219, 219);
 
     // Desenhar a porta em marrom
     ConsoleManeger::setColor(6, 0); // Marrom no fundo preto
+    ConsoleManeger::gotoxy(x + 8, y + 9); printf("%c%c", 219, 219);
     ConsoleManeger::gotoxy(x + 8, y + 10); printf("%c%c", 219, 219);
-    ConsoleManeger::gotoxy(x + 8, y + 11); printf("%c%c", 219, 219);
+}
+
+void RenderManager::drawDino(int x, int y) {
+    char block = 219;  // Bloco sólido
+
+    // Define cores
+    ConsoleManeger::setColor(DINO_COLOR, GRASS_COLOR);  // Cor principal do dino
+
+    // Desenha o corpo do dinossauro
+    ConsoleManeger::gotoxy(x, y);
+    printf("         %c%c%c%c%c%c%c%c", block, block, block, block, block, block, block, block); // Cabeça
+
+    ConsoleManeger::gotoxy(x, y + 1);
+    printf("         %c%c", block, block);
+    ConsoleManeger::setColor(4, GRASS_COLOR);  // Cor do olho (vermelho)
+    printf("%c", block);
+    ConsoleManeger::setColor(DINO_COLOR, GRASS_COLOR);  // Volta cor principal
+    printf("%c%c%c%c%c", block, block, block, block, block); // Resto da cabeça
+
+    ConsoleManeger::gotoxy(x, y + 2);
+    printf("         %c%c%c%c%c%c%c ", block, block, block, block, block, block, block); // Pescoço
+
+    ConsoleManeger::gotoxy(x, y + 3);
+    printf(" %c      %c%c%c%c%c%c%c%c ", block, block, block, block, block, block, block, block, block); // Corpo superior
+
+    ConsoleManeger::gotoxy(x, y + 4);
+    printf(" %c%c%c  %c%c%c%c%c%c%c%c%c%c ", block, block, block, block, block, block, block, block, block, block, block, block, block); // Corpo meio
+
+    ConsoleManeger::gotoxy(x, y + 5);
+    printf(" %c%c%c%c%c%c%c%c%c%c%c%c  %c ", block, block, block, block, block, block, block, block, block, block, block, block, block); // Corpo inferior
+
+    ConsoleManeger::gotoxy(x, y + 6);
+    printf("   %c%c%c%c%c%c%c%c%c     ", block, block, block, block, block, block, block, block, block); // Cauda superior
+
+    ConsoleManeger::gotoxy(x, y + 7);
+    printf("    %c%c%c %c%c       ", block, block, block, block, block); // Perna superior
+
+    ConsoleManeger::gotoxy(x, y + 8);
+    printf("    %c%c   %c%c      ", block, block, block, block); // Perna inferior
+
+    ConsoleManeger::setColor(7, 0);  // Restaura cores padrão
 }
 
 void RenderManager::eraseDino(int jump, int x, int y) {
