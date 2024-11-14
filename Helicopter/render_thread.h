@@ -11,7 +11,7 @@
 #include "depot.h"
 #include "render_manager.h"
 #include "game_state.h"
-#include "console_manager.h"
+#include "console_maneger.h"
 
 class RenderThread {
 private:

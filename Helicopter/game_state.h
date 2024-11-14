@@ -1,5 +1,10 @@
+#define GAMESTATE_H
+#ifndef GAMESTATE_H
+
 #include <mutex>
 using namespace std;
+
+
 class GameState {
 private:
     static bool gameRunning;
@@ -27,3 +32,4 @@ public:
         score += points;
     }
 };
+#endif

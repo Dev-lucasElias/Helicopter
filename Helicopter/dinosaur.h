@@ -10,10 +10,11 @@ private:
     int headHeight;
 
 public:
-    Dinosaur();  
+    Dinosaur();
 
-    bool isAlive() const;    
-    void setAlive(bool state); 
-    int getHeadHeight() const; 
+    bool isAlive() const;
+    void setAlive(bool state);
+    int getHeadHeight() const;
+};
 
 #endif

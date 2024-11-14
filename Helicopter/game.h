@@ -15,6 +15,7 @@ namespace GameConstants {  // Coloca as constantes em um namespace para evitar c
     constexpr int DEPOT_WIDTH = 50;
     constexpr int DEPOT_HEIGHT = 30;
     constexpr int MIN_MISSILES_WARNING = 3;
+    constexpr int TRUCK_CAPACITY = 2;
 
     // Cores
     constexpr int SKY_COLOR = 1;    // Azul

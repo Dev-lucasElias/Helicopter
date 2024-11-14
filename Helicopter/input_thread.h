@@ -8,7 +8,7 @@
 #include "helicopter.h"
 #include "missile.h"
 #include "game_state.h"
-#include "console_manager.h"
+#include "console_maneger.h"
 #include "game.h"
 
 class InputThread {

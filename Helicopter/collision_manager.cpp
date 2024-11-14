@@ -1,4 +1,4 @@
-// collision_manager.cpp
+
 #include "collision_manager.h"
 #include "game.h"  // para DEPOT_WIDTH e DEPOT_HEIGHT
 #include <cstdlib> // para abs()
