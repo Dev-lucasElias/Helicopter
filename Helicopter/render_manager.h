@@ -27,7 +27,7 @@ public:
     static void moveMissileLeft(int x, int y);
 
     // Funções de limpeza
-    static void eraseDino(int jump, int x, int y);
+    static void eraseDino(int x, int y);
     static void eraseTruckLeft(int x, int y);
     static void eraseTruckRight(int x, int y);
     static void eraseHelicopter(int x, int y);

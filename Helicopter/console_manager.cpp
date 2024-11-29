@@ -27,6 +27,11 @@ void ConsoleManeger::delay(unsigned int mseconds) {
     while (goal > clock());
 }
 
+// No console_manager.cpp
+void ConsoleManeger::clearScreen() {
+    system("cls");  // Para Windows
+}
+
 void ConsoleManeger::getup()
 {
     system("cls");

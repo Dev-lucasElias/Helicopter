@@ -95,158 +95,127 @@ void RenderManager::drawDino(int x, int y) {
     ConsoleManeger::setColor(7, 0);  // Restaura cores padrão
 }
 
-void RenderManager::eraseDino(int jump, int x, int y) {
-    static int a = 1;
-    ConsoleManeger::setColor(DINO_COLOR, SKY_COLOR);
-    if (jump == 0)
-        t = 0;
-    else if (jump == 2)
-        t--;
-    else t++;
-    ConsoleManeger::gotoxy(x, y + 15 - t);
-    ConsoleManeger::gotoxy(x, y + 16 - t);
-    printf("                 ");
-    ConsoleManeger::gotoxy(x, y + 17 - t);
-    printf("                 ");
-    ConsoleManeger::gotoxy(x, y + 18 - t);
-    printf("                 ");
-    ConsoleManeger::gotoxy(x, y + 19 - t);
-    printf("                 ");
-    ConsoleManeger::gotoxy(x, y + 20 - t);
-    printf("                 ");
-    ConsoleManeger::gotoxy(x, y + 21 - t);
-    printf("                 ");
-    ConsoleManeger::gotoxy(x, y + 22 - t);
-    printf("                 ");
-    ConsoleManeger::gotoxy(x, y + 23 - t);
-    if (jump == 1 || jump == 2) {
-        printf("                 ");
-        ConsoleManeger::gotoxy(x, y + 24 - t);
-        printf("                 ");
-    }
-    else
-        if (a == 1) {
-            printf("                 ");
-            ConsoleManeger::gotoxy(x, y + 24 - t);
-            printf("                 ");
-            a = 2;
+void RenderManager::eraseDino(int x, int y) {
+    int skyHeight = SCREEN_HEIGHT * 2 / 3;
+    char block = 219;
+
+    // Para cada linha do dinossauro
+    for (int i = 0; i <= 8; i++) {
+        ConsoleManeger::gotoxy(x, y + i);
+
+        // Determina a cor baseada na posição vertical atual
+        if (y + i >= skyHeight) {
+            ConsoleManeger::setColor(GRASS_COLOR, GRASS_COLOR);
         }
-        else
-            if (a == 2) {
-                printf("                 ");
-                ConsoleManeger::gotoxy(x, y + 24 - t);
-                printf("                 ");
-                a = 1;
-            }
-    ConsoleManeger::gotoxy(x, y + 25 - t);
-    if (jump != 0) {
-        printf("                ");
+        else {
+            ConsoleManeger::setColor(SKY_COLOR, SKY_COLOR);
+        }
+
+        printf("                 ");  // 17 espaços
     }
+
+    ConsoleManeger::setColor(7, 0);
 }
 
 void RenderManager::moveDinoRight(int jump, int x, int y) {
-    static int a = 1;
-    ConsoleManeger::setColor(DINO_COLOR, SKY_COLOR);
-    if (jump == 0)
-        t = 0;
-    else if (jump == 2)
-        t--;
-    else t++;
-    ConsoleManeger::gotoxy(x, y + 15 - t);
-    ConsoleManeger::gotoxy(x, y + 16 - t);
-    printf("         ��������");
-    ConsoleManeger::gotoxy(x, y + 17 - t);
-    printf("         ��������");
-    ConsoleManeger::gotoxy(x, y + 18 - t);
-    printf("         ��������");
-    ConsoleManeger::gotoxy(x, y + 19 - t);
-    printf(" �      �������� ");
-    ConsoleManeger::gotoxy(x, y + 20 - t);
-    printf(" ���  ���������� ");
-    ConsoleManeger::gotoxy(x, y + 21 - t);
-    printf(" ������������  � ");
-    ConsoleManeger::gotoxy(x, y + 22 - t);
-    printf("   ���������     ");
-    ConsoleManeger::gotoxy(x, y + 23 - t);
-    if (jump == 1 || jump == 2) {
-        printf("    ��� ��       ");
-        ConsoleManeger::gotoxy(x, y + 24 - t);
-        printf("    ��   ��      ");
-    }
-    else
-        if (a == 1) {
-            printf("    ����  ���    ");
-            ConsoleManeger::gotoxy(x, y + 24 - t);
-            printf("      ��         ");
-            a = 2;
-        }
-        else
-            if (a == 2) {
-                printf("     ��� ��      ");
-                ConsoleManeger::gotoxy(x, y + 24 - t);
-                printf("          ��     ");
-                a = 1;
-            }
-    ConsoleManeger::gotoxy(x, y + 25 - t);
-    if (jump != 0) {
-        printf("                ");
-    }
+    char block = 219;
+
+    ConsoleManeger::setColor(DINO_COLOR, GRASS_COLOR);
+
+    // Cabeça
+    ConsoleManeger::gotoxy(x, y);
+    printf("         %c%c%c%c%c%c%c%c", block, block, block, block, block, block, block, block);
+
+    // Cabeça com olho
+    ConsoleManeger::gotoxy(x, y + 1);
+    printf("         %c%c", block, block);
+    ConsoleManeger::setColor(4, GRASS_COLOR);  // Olho vermelho
+    printf("%c", block);
+    ConsoleManeger::setColor(DINO_COLOR, GRASS_COLOR);
+    printf("%c%c%c%c%c", block, block, block, block, block);
+
+    // Pescoço
+    ConsoleManeger::gotoxy(x, y + 2);
+    printf("         %c%c%c%c%c%c%c ", block, block, block, block, block, block, block);
+
+    // Corpo superior
+    ConsoleManeger::gotoxy(x, y + 3);
+    printf(" %c      %c%c%c%c%c%c%c%c ", block, block, block, block, block, block, block, block, block);
+
+    // Corpo meio
+    ConsoleManeger::gotoxy(x, y + 4);
+    printf(" %c%c%c  %c%c%c%c%c%c%c%c%c%c ", block, block, block, block, block, block, block, block, block, block, block, block, block);
+
+    // Corpo inferior
+    ConsoleManeger::gotoxy(x, y + 5);
+    printf(" %c%c%c%c%c%c%c%c%c%c%c%c  %c ", block, block, block, block, block, block, block, block, block, block, block, block, block);
+
+    // Cauda
+    ConsoleManeger::gotoxy(x, y + 6);
+    printf("   %c%c%c%c%c%c%c%c%c     ", block, block, block, block, block, block, block, block, block);
+
+    // Perna superior
+    ConsoleManeger::gotoxy(x, y + 7);
+    printf("    %c%c%c %c%c       ", block, block, block, block, block);
+
+    // Perna inferior
+    ConsoleManeger::gotoxy(x, y + 8);
+    printf("    %c%c   %c%c      ", block, block, block, block);
+
+    ConsoleManeger::setColor(7, 0);
     ConsoleManeger::delay(speed);
-    RenderManager::eraseDino(jump, x, y);
+    RenderManager::eraseDino(x, y);
+
 }
 
 void RenderManager::moveDinoLeft(int jump, int x, int y) {
-    static int a = 1;
-    ConsoleManeger::setColor(DINO_COLOR, SKY_COLOR);
-    if (jump == 0)
-        t = 0;
-    else if (jump == 2)
-        t--;
-    else t++;
+    char block = 219;
 
-    ConsoleManeger::gotoxy(x, y + 15 - t);
-    printf("                 ");
-    ConsoleManeger::gotoxy(x, y + 16 - t);
-    printf(" �������         ");
-    ConsoleManeger::gotoxy(x, y + 17 - t);
-    printf(" ��������        ");
-    ConsoleManeger::gotoxy(x, y + 18 - t);
-    printf(" ��������        ");
-    ConsoleManeger::gotoxy(x, y + 19 - t);
-    printf("  ��������      �");
-    ConsoleManeger::gotoxy(x, y + 20 - t);
-    printf(" ������������  ��");
-    ConsoleManeger::gotoxy(x, y + 21 - t);
-    printf(" �  �������������");
-    ConsoleManeger::gotoxy(x, y + 22 - t);
-    printf("     ����������  ");
-    ConsoleManeger::gotoxy(x, y + 23 - t);
+    ConsoleManeger::setColor(DINO_COLOR, GRASS_COLOR);
 
-    if (jump == 1 || jump == 2) {
-        printf("       �� ���    ");
-        ConsoleManeger::gotoxy(x, y + 24 - t);
-        printf("      ��   ��    ");
-    }
-    else if (a == 1) {
-        printf("    ���  ����    ");
-        ConsoleManeger::gotoxy(x, y + 24 - t);
-        printf("         ��      ");
-        a = 2;
-    }
-    else if (a == 2) {
-        printf("      �� ���     ");
-        ConsoleManeger::gotoxy(x, y + 24 - t);
-        printf("     ��           ");
-        a = 1;
-    }
+    // Cabeça
+    ConsoleManeger::gotoxy(x, y);
+    printf("%c%c%c%c%c%c%c%c         ", block, block, block, block, block, block, block, block);
 
-    ConsoleManeger::gotoxy(x, y + 25 - t);
-    if (jump != 0) {
-        printf("                ");
-    }
+    // Cabeça com olho
+    ConsoleManeger::gotoxy(x, y + 1);
+    printf("%c%c", block, block);
+    ConsoleManeger::setColor(4, GRASS_COLOR);  // Olho vermelho
+    printf("%c", block);
+    ConsoleManeger::setColor(DINO_COLOR, GRASS_COLOR);
+    printf("%c%c%c%c%c         ", block, block, block, block, block);
 
+    // Pescoço
+    ConsoleManeger::gotoxy(x, y + 2);
+    printf(" %c%c%c%c%c%c%c         ", block, block, block, block, block, block, block);
+
+    // Corpo superior
+    ConsoleManeger::gotoxy(x, y + 3);
+    printf(" %c%c%c%c%c%c%c%c      %c ", block, block, block, block, block, block, block, block, block);
+
+    // Corpo meio
+    ConsoleManeger::gotoxy(x, y + 4);
+    printf(" %c%c%c%c%c%c%c%c%c%c%c%c%c  ", block, block, block, block, block, block, block, block, block, block, block, block, block);
+
+    // Corpo inferior
+    ConsoleManeger::gotoxy(x, y + 5);
+    printf(" %c  %c%c%c%c%c%c%c%c%c%c%c%c", block, block, block, block, block, block, block, block, block, block, block, block, block);
+
+    // Cauda
+    ConsoleManeger::gotoxy(x, y + 6);
+    printf("     %c%c%c%c%c%c%c%c%c   ", block, block, block, block, block, block, block, block, block);
+
+    // Perna superior
+    ConsoleManeger::gotoxy(x, y + 7);
+    printf("       %c%c %c%c%c    ", block, block, block, block, block);
+
+    // Perna inferior
+    ConsoleManeger::gotoxy(x, y + 8);
+    printf("      %c%c   %c%c    ", block, block, block, block);
+
+    ConsoleManeger::setColor(7, 0);
     ConsoleManeger::delay(speed);
-    RenderManager::eraseDino(jump, x, y);
+    RenderManager::eraseDino(x, y);
 }
 
 int posicaoHelice = 0;
