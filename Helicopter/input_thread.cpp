@@ -32,31 +32,49 @@ void InputThread::operator()() {
 
 void InputThread::moveHelicopter(char direction) {
     std::lock_guard<std::mutex> lock(missileMutex);
+    //RenderSync::beginRender();
+
+    // Guarda a posição atual antes de mover
+    int currentX = helicopter.getX();
+    int currentY = helicopter.getY();
 
     switch (direction) {
     case 'L':
         if (helicopter.getX() > 0) {
+            // Limpa posição atual
+            RenderManager::eraseHelicopter(currentX, currentY);
+            // Move
             helicopter.setX(helicopter.getX() - HELICOPTER_SPEED);
             helicopter.setDirection('L');
         }
         break;
     case 'R':
         if (helicopter.getX() < SCREEN_WIDTH - 20) {
+            // Limpa posição atual
+            RenderManager::eraseHelicopter(currentX, currentY);
+            // Move
             helicopter.setX(helicopter.getX() + HELICOPTER_SPEED);
             helicopter.setDirection('R');
         }
         break;
     case 'U':
         if (helicopter.getY() > 0) {
+            // Limpa posição atual
+            RenderManager::eraseHelicopter(currentX, currentY);
+            // Move
             helicopter.setY(helicopter.getY() - HELICOPTER_SPEED);
         }
         break;
     case 'D':
         if (helicopter.getY() < SCREEN_HEIGHT - 20) {
+            // Limpa posição atual
+            RenderManager::eraseHelicopter(currentX, currentY);
+            // Move
             helicopter.setY(helicopter.getY() + HELICOPTER_SPEED);
         }
         break;
     }
+   // RenderSync::endRender();
 }
 
 void InputThread::shootMissile() {

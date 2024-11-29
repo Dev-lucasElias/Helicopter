@@ -93,6 +93,9 @@
     <ClCompile Include="truck_thread.cpp">
       <Filter>Arquivos de Origem\Threads</Filter>
     </ClCompile>
+    <ClCompile Include="render_sync.cpp">
+      <Filter>Arquivos de Origem\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -148,6 +151,9 @@
     </ClInclude>
     <ClInclude Include="input_thread.h">
       <Filter>Arquivos de Cabeçalho\Threads</Filter>
+    </ClInclude>
+    <ClInclude Include="render_sync.h">
+      <Filter>Arquivos de Cabeçalho\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

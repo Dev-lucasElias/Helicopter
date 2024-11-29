@@ -7,44 +7,43 @@ RenderThread::RenderThread(Helicopter& h, std::vector<Missile>& m, std::vector<D
     missileMutex(mm), dinoMutex(dm) {}
 
 void RenderThread::operator()() {
+    int lastX = helicopter.getX();
+    int lastY = helicopter.getY();
+
     while (GameState::isGameRunning()) {
-        //// Limpa tela e redesenha cenário
-        //ConsoleManeger::clearScreen();
-        //RenderManager::drawScene();
+        // Se a posição do helicóptero mudou, precisamos limpar a posição anterior
+        RenderSync::beginRender();
 
-        // Desenha helicóptero
-        if (helicopter.getDirection() == 'R') {
-            RenderManager::moveHelicopterRight(helicopter.getX(), helicopter.getY());
-        }
-        else {
-            RenderManager::moveHelicopterLeft(helicopter.getX(), helicopter.getY());
+        if (lastX != helicopter.getX() || lastY != helicopter.getY()) {
+            RenderManager::eraseHelicopter(lastX, lastY);
+            RenderManager::drawScene(lastX - 2, lastY, lastX + 20, lastY + 8);  // Área afetada pelo helicóptero
+            lastX = helicopter.getX();
+            lastY = helicopter.getY();
         }
 
-        //// Desenha mísseis
-        //{
-        //    std::lock_guard<std::mutex> lock(missileMutex);
-        //    for (const auto& missile : missiles) {
-        //        if (missile.isActive()) {
-        //            if (missile.getDirection() == 'R') {
-        //                RenderManager::moveMissileRight(missile.getX(), missile.getY());
-        //            }
-        //            else {
-        //                RenderManager::moveMissileLeft(missile.getX(), missile.getY());
-        //            }
-        //        }
-        //    }
-        //}
-         
-        
+
+
+        if (helicopter.getX() >= 0 &&
+            helicopter.getX() <= SCREEN_WIDTH - 20 &&
+            helicopter.getY() >= 0 &&
+            helicopter.getY() <= SCREEN_HEIGHT - 8) {
+            if (helicopter.getDirection() == 'R') {
+                RenderManager::moveHelicopterRight(helicopter.getX(), helicopter.getY());
+            }
+            else {
+                RenderManager::moveHelicopterLeft(helicopter.getX(), helicopter.getY());
+            }
+        }
+
         // Desenha depósito
         RenderManager::drawDepot(116, 20);
 
-        // Desenha dinossauros
         {
             std::lock_guard<std::mutex> lock(dinoMutex);
             for (const auto& dino : dinosaurs) {
-                if (dino.isAlive()) {
-                        ConsoleManeger::gotoxy(dino.getX(), dino.getY());
+                if (dino.isAlive() &&
+                    dino.getY() >= 0 &&
+                    dino.getY() + DINO_HEIGHT <= SCREEN_HEIGHT) {
                     if (dino.getDirection() == 'R') {
                         RenderManager::moveDinoRight(0, dino.getX(), dino.getY());
                     }
@@ -54,16 +53,7 @@ void RenderThread::operator()() {
                 }
             }
         }
-
-
-        //// Desenha caminhão
-        //if (truck.getDirection() == 'R') {
-        //    RenderManager::moveTruckRight(truck.getX(), truck.getY());
-        //}
-        //else {
-        //    RenderManager::moveTruckLeft(truck.getX(), truck.getY());
-        //}
-
-        ConsoleManeger::delay(40);  // Delay para controlar FPS
+        RenderSync::endRender();
+        ConsoleManeger::delay(50);  // Delay para controlar FPS
     }
 }

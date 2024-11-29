@@ -13,6 +13,7 @@ class RenderManager {
 public:
     // Funções de desenho base
     static void drawScene();
+    static void drawScene(int startX, int startY, int endX, int endY);
     static void drawDepot(int x, int y);  // Corrigido nome
     static void drawDino(int x, int y);
 

@@ -4,23 +4,29 @@
 using namespace std;
 
 int t, speed = 40;
-void RenderManager::drawScene() {
+void RenderManager::drawScene(int startX, int startY, int endX, int endY) {
     char block = 219;
     int skyHeight = SCREEN_HEIGHT * 2 / 3;
 
-    // Primeiro desenha todo o céu
+    // Limita as coordenadas aos limites da tela
+    startX = max(0, startX);
+    startY = max(0, startY);
+    endX = min(SCREEN_WIDTH, endX);
+    endY = min(SCREEN_HEIGHT, endY);
+
+    // Desenha o céu
     ConsoleManeger::setColor(SKY_COLOR, SKY_COLOR);
-    for (int y = 0; y < skyHeight; y++) {
-        for (int x = 0; x < SCREEN_WIDTH; x++) {
+    for (int y = startY; y < min(skyHeight, endY); y++) {
+        for (int x = startX; x < endX; x++) {
             ConsoleManeger::gotoxy(x, y);
             cout << block;
         }
     }
 
-    // Depois desenha toda a grama
+    // Desenha a grama
     ConsoleManeger::setColor(GRASS_COLOR, GRASS_COLOR);
-    for (int y = skyHeight; y < SCREEN_HEIGHT; y++) {
-        for (int x = 0; x < SCREEN_WIDTH; x++) {
+    for (int y = max(skyHeight, startY); y < endY; y++) {
+        for (int x = startX; x < endX; x++) {
             ConsoleManeger::gotoxy(x, y);
             cout << block;
         }
@@ -28,6 +34,12 @@ void RenderManager::drawScene() {
 
     ConsoleManeger::setColor(7, 0);
 }
+
+// Sobrecarga para redesenhar toda a tela
+void RenderManager::drawScene() {
+    drawScene(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+}
+
 
 void RenderManager::drawDepot(int x, int y) {
     // Desenhar o teto da casa 
@@ -246,83 +258,89 @@ void RenderManager::moveMissileLeft(int x, int y) {
 }
 
 void RenderManager::moveHelicopterRight(int x, int y) {
+    // Primeiro limpar a posição anterior
+    eraseHelicopter(x, y);
+
+    ConsoleManeger::setColor(4, SKY_COLOR);
+
+    // Desenhar hélice
     ConsoleManeger::gotoxy(x + 3, y);
-    ConsoleManeger::setColor(4, SKY_COLOR); // 2 = Verde, 1 = Azul
     switch (posicaoHelice) {
-    case 0: printf("______�______\n"); break;
-    case 1: printf(" _____�_____ \n"); break;
-    case 2: printf("  ____�____  \n"); break;
-    case 3: printf("   ___�___   \n"); break;
-    case 4: printf("    __�__    \n"); break;
-    case 5: printf("     _�_    \n"); break;
-    case 6: printf("    __�__    \n"); break;
-    case 7: printf("   ___�___   \n"); break;
-    case 8: printf("  ____�____  \n"); break;
-    case 9: printf(" _____�_____ \n"); break;
-    case 10: printf("______�______\n"); break;
+    case 0: printf("______+______"); break;
+    case 1: printf(" _____+_____ "); break;
+    case 2: printf("  ____+____  "); break;
+    case 3: printf("   ___+___   "); break;
+    case 4: printf("    __+__    "); break;
+    case 5: printf("     _+_     "); break;
+    case 6: printf("    __+__    "); break;
+    case 7: printf("   ___+___   "); break;
+    case 8: printf("  ____+____  "); break;
+    case 9: printf(" _____+_____ "); break;
+    case 10: printf("______+______"); break;
     }
     posicaoHelice = (posicaoHelice < 10 ? posicaoHelice + 1 : 1);
+
+    // Desenhar corpo
     ConsoleManeger::gotoxy(x + 7, y + 1);
-    printf("  �  \n");
+    printf("  +  ");
     ConsoleManeger::gotoxy(x + 7, y + 2);
-    printf("�����\n");
+    printf("+++++");
     ConsoleManeger::gotoxy(x, y + 3);
-    printf("�     ��������\n");
+    printf("+     ++++++++");
     ConsoleManeger::gotoxy(x, y + 4);
-    printf("���������������\n");
+    printf("++++++++++++++");
     ConsoleManeger::gotoxy(x, y + 5);
-    printf("      ��������\n");
+    printf("      ++++++++");
     ConsoleManeger::gotoxy(x, y + 6);
-    printf("         �\n");
+    printf("         +");
     ConsoleManeger::gotoxy(x, y + 7);
-    printf("    �����������\n");
-    
+    printf("    +++++++++++");
 }
+
 void RenderManager::moveHelicopterLeft(int x, int y) {
+    // Primeiro limpar a posição anterior
+    eraseHelicopter(x, y);
+
+    ConsoleManeger::setColor(4, SKY_COLOR);
+
+    // Desenhar hélice
     ConsoleManeger::gotoxy(x - 2, y);
-    ConsoleManeger::setColor(4, SKY_COLOR); // 2 = Verde, 1 = Azul
     switch (posicaoHelice) {
-    case 0: printf("______+______\n"); break;
-    case 1: printf(" _____+_____ \n"); break;
-    case 2: printf("  ____+____  \n"); break;
-    case 3: printf("   ___+___   \n"); break;
-    case 4: printf("    __+__    \n"); break;
-    case 5: printf("     _+_    \n"); break;
-    case 6: printf("    __+__    \n"); break;
-    case 7: printf("   ___+___   \n"); break;
-    case 8: printf("  ____+____  \n"); break;
-    case 9: printf(" _____+_____ \n"); break;
-    case 10: printf("______+______\n"); break;
+    case 0: printf("______+______"); break;
+    case 1: printf(" _____+_____ "); break;
+    case 2: printf("  ____+____  "); break;
+    case 3: printf("   ___+___   "); break;
+    case 4: printf("    __+__    "); break;
+    case 5: printf("     _+_     "); break;
+    case 6: printf("    __+__    "); break;
+    case 7: printf("   ___+___   "); break;
+    case 8: printf("  ____+____  "); break;
+    case 9: printf(" _____+_____ "); break;
+    case 10: printf("______+______"); break;
     }
     posicaoHelice = (posicaoHelice < 10 ? posicaoHelice + 1 : 1);
+
     ConsoleManeger::gotoxy(x + 2, y + 1);
-    printf("__|__\n");
+    printf("__|__");
     ConsoleManeger::gotoxy(x + 1, y + 2);
-    printf("/     \\====/\\\n");
+    printf("/     \\====/\\");
     ConsoleManeger::gotoxy(x, y + 3);
-    printf("(      /\n");
+    printf("(      /");
     ConsoleManeger::gotoxy(x + 2, y + 4);
-    printf("_+__+_       \n");
-    if (rand() % 30 == 7) {
-        RenderManager::moveMissileLeft(x + 15, y + 4);
-    }
+    printf("_+__+_       ");
 }
 void RenderManager::eraseHelicopter(int x, int y) {
-    ConsoleManeger::setColor(SKY_COLOR, SKY_COLOR); // 2 = Verde, 1 = Azul
-    ConsoleManeger::gotoxy(x, y);
-    printf("               \n");
-    ConsoleManeger::gotoxy(x, y + 1);
-    printf("               \n");
-    ConsoleManeger::gotoxy(x - 1, y + 2);
-    printf("               \n");
-    ConsoleManeger::gotoxy(x, y + 3);
-    printf("               \n");
-    ConsoleManeger::gotoxy(x, y + 4);
-    printf("               \n");
-    ConsoleManeger::gotoxy(x, y + 5);
-    printf("               \n");
-    ConsoleManeger::gotoxy(x, y + 6);
-    printf("               \n");
+    ConsoleManeger::setColor(SKY_COLOR, SKY_COLOR);
+
+    // Limpar área da hélice (mais larga que o corpo)
+    ConsoleManeger::gotoxy(x - 2, y);
+    printf("                      "); // 22 espaços para cobrir toda a hélice
+
+    // Limpar corpo do helicóptero
+    for (int i = 1; i <= 7; i++) {
+        ConsoleManeger::gotoxy(x - 2, y + i);
+        printf("                 "); // 17 espaços para cobrir o corpo
+    }
 }
 
 void RenderManager::moveTruckLeft(int x, int y) {

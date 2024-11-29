@@ -9,17 +9,30 @@ DinosaurThread::DinosaurThread(Dinosaur& d, std::mutex& m)
 
 void DinosaurThread::operator()() {
     while (GameState::isGameRunning()) {
-        {
-            std::lock_guard<std::mutex> lock(dinoMutex);
-            moveHorizontal();
-        }  // Mutex é liberado aqui
+        std::lock_guard<std::mutex> lock(dinoMutex);
 
-        // Decide se vai pular
-        if (rand() % 100 < 30) {
-            jump();  // Jump tem seu próprio gerenciamento de mutex
+        // Verifica limite horizontal
+        if (dinosaur.getDirection() == 'R') {
+            if (dinosaur.getX() >= SCREEN_WIDTH - DINO_WIDTH) {
+                dinosaur.setDirection('L');
+            }
+            else {
+                dinosaur.setX(dinosaur.getX() + DINO_SPEED);
+            }
+        }
+        else {
+            if (dinosaur.getX() <= 0) {
+                dinosaur.setDirection('R');
+            }
+            else {
+                dinosaur.setX(dinosaur.getX() - DINO_SPEED);
+            }
         }
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(40));
+        // Mantém o dinossauro no nível do chão
+        dinosaur.setY(GROUND_LEVEL - DINO_HEIGHT + 1);
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 }
 

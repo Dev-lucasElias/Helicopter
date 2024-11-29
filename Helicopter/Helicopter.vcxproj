@@ -142,11 +142,13 @@
     <ClCompile Include="missile.cpp" />
     <ClCompile Include="missile_thread.cpp" />
     <ClCompile Include="render_manager.cpp" />
+    <ClCompile Include="render_sync.cpp" />
     <ClCompile Include="render_thread.cpp" />
     <ClCompile Include="truck.cpp" />
     <ClCompile Include="truck_thread.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="render_sync.h" />
     <ClInclude Include="collision_manager.h" />
     <ClInclude Include="depot.h" />
     <ClInclude Include="dinosaur_generator_thread.h" />

@@ -16,7 +16,10 @@ namespace GameConstants {  // Coloca as constantes em um namespace para evitar c
     constexpr int DEPOT_HEIGHT = 30;
     constexpr int MIN_MISSILES_WARNING = 3;
     constexpr int TRUCK_CAPACITY = 2;
-
+    const int SKY_HEIGHT = SCREEN_HEIGHT * 2 / 3;
+    const int GROUND_LEVEL = SKY_HEIGHT;
+    const int DINO_HEIGHT = 9;  // Altura total do sprite do dinossauro
+    const int DINO_WIDTH = 17;
     // Cores
     constexpr int SKY_COLOR = 1;    // Azul
     constexpr int GRASS_COLOR = 2;  // Verde

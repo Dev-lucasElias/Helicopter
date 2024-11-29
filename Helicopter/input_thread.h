@@ -10,6 +10,8 @@
 #include "game_state.h"
 #include "console_maneger.h"
 #include "game.h"
+#include "render_manager.h"
+#include "render_sync.h"
 
 class InputThread {
 private:
