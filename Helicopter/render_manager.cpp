@@ -276,9 +276,7 @@ void RenderManager::moveHelicopterRight(int x, int y) {
     printf("         �\n");
     ConsoleManeger::gotoxy(x, y + 7);
     printf("    �����������\n");
-    if (rand() % 30 == 7) {
-        RenderManager::moveMissileRight(x + 15, y + 4);
-    }
+    
 }
 void RenderManager::moveHelicopterLeft(int x, int y) {
     ConsoleManeger::gotoxy(x - 2, y);

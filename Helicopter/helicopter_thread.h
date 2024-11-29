@@ -2,27 +2,23 @@
 #ifndef HELICOPTER_THREAD_H
 #define HELICOPTER_THREAD_H
 
-#include <vector>
-#include <mutex>
 #include "helicopter.h"
 #include "depot.h"
 #include "missile.h"
-#include "collision_manager.h"
 #include "game_state.h"
-#include "console_maneger.h"
+#include <mutex>
+#include <vector>
 
 class HelicopterThread {
 private:
-   Helicopter& helicopter;
-   Depot& depot;
-   std::vector<Missile>& missiles;
-   std::mutex& missileMutex;
-
-   void reloadHelicopter();
+	Helicopter& helicopter;
+	Depot& depot;
+	std::vector<Missile>& missiles;
+	std::mutex& missileMutex;
 
 public:
-   HelicopterThread(Helicopter& h, Depot& d, std::vector<Missile>& m, std::mutex& mm);
-   void operator()();
+	HelicopterThread(Helicopter& h, Depot& d, std::vector<Missile>& m, std::mutex& mm);
+	void operator()();
 };
 
 #endif

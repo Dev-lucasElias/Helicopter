@@ -10,14 +10,19 @@ int Helicopter::getMissiles() const { return missiles; }
 bool Helicopter::isAlive() const { return alive; }
 bool Helicopter::needsReload() const { return needReload; }
 bool Helicopter::getIsReloading() const { return isReloading; }
-
 void Helicopter::setMissiles(int count) { missiles = count; }
 void Helicopter::setAlive(bool state) { alive = state; }
 void Helicopter::setNeedReload(bool state) { needReload = state; }
 void Helicopter::setIsReloading(bool state) { isReloading = state; }
 
 void Helicopter::addMissiles(int count) { missiles += count; }
+
 void Helicopter::removeMissile() {
     if (missiles > 0) missiles--;
     if (missiles < MIN_MISSILES_WARNING) needReload = true;
+}
+
+bool Helicopter::isNearDepot(const Depot& depot) const {
+    return abs(getX() - depot.getX()) < DEPOT_WIDTH / 2 &&
+        abs(getY() - depot.getY()) < DEPOT_HEIGHT / 2;
 }

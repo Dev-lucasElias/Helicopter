@@ -13,12 +13,12 @@ void RenderThread::operator()() {
         //RenderManager::drawScene();
 
         // Desenha helicóptero
-        /*if (helicopter.getDirection() == 'R') {
+        if (helicopter.getDirection() == 'R') {
             RenderManager::moveHelicopterRight(helicopter.getX(), helicopter.getY());
         }
         else {
             RenderManager::moveHelicopterLeft(helicopter.getX(), helicopter.getY());
-        }*/
+        }
 
         //// Desenha mísseis
         //{
