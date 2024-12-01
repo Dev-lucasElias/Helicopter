@@ -21,7 +21,10 @@
 int main() {
     // Configuração inicial
     ConsoleManeger::setConsoleSize(133, 33);
+    //Renderiza cenário
     RenderManager::drawScene();
+    // Desenha depósito
+    RenderManager::drawDepot(116, 20);
 
     // Criação dos objetos
     Helicopter helicopter;  // Centro da tela
@@ -50,23 +53,7 @@ int main() {
     //threads.emplace_back(TruckThread(truck, depot));
     threads.emplace_back(RenderThread(helicopter, missiles, dinosaurs, truck, depot, missileMutex, dinoMutex));
 
-    //// Loop principal do jogo
-    //bool frente = true;
-    //int x = 2;
-    //while (GameState::isGameRunning()) {
-    //    if (frente) {
-    //        RenderManager::moveDinoRight(rand() % 2, x, 24);
-    //        x++;
-    //        if (x == 130) frente = false;
-    //    }
-    //    if (!frente) {
-    //        RenderManager::moveDinoLeft(rand() % 2, x, 24);
-    //        x--;
-    //        if (x == 5) frente = true;
-    //    }
-
-    //    ConsoleManeger::delay(100);
-    //}
+    
 
     // Aguarda threads terminarem
     for (auto& t : threads) {

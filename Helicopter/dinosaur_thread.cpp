@@ -3,36 +3,51 @@
 #include <thread>
 #include <chrono>
 #include <random>
+#include <algorithm>
 
 DinosaurThread::DinosaurThread(Dinosaur& d, std::mutex& m)
-    : dinosaur(d), dinoMutex(m), movementDuration(0), movementInterval(50) {}
+    : dinosaur(d), dinoMutex(m), movementDuration(0), movementInterval(50) {
+    std::srand(std::time(nullptr));
+}
 
 void DinosaurThread::operator()() {
     while (GameState::isGameRunning()) {
-        std::lock_guard<std::mutex> lock(dinoMutex);
+        // Decidimos se vamos pular antes de adquirir qualquer lock
+        bool shouldJump = (rand() % 10 == 0);
 
-        // Verifica limite horizontal
-        if (dinosaur.getDirection() == 'R') {
-            if (dinosaur.getX() >= SCREEN_WIDTH - DINO_WIDTH) {
-                dinosaur.setDirection('L');
-            }
-            else {
-                dinosaur.setX(dinosaur.getX() + DINO_SPEED);
-            }
+        if (shouldJump) {
+            // Se for pular, não pegamos o lock aqui
+            jump();
         }
         else {
-            if (dinosaur.getX() <= 0) {
-                dinosaur.setDirection('R');
+            // Lock apenas para movimento horizontal
+            std::lock_guard<std::mutex> lock(dinoMutex);
+
+            // Lógica de movimento horizontal
+            if (dinosaur.getDirection() == 'R') {
+                if (dinosaur.getX() >= SCREEN_WIDTH - DINO_WIDTH - 40) {
+                    dinosaur.setDirection('L');
+                }
+                else {
+                    dinosaur.setX(dinosaur.getX() + DINO_SPEED);
+                }
             }
             else {
-                dinosaur.setX(dinosaur.getX() - DINO_SPEED);
+                if (dinosaur.getX() <= 0) {
+                    dinosaur.setDirection('R');
+                }
+                else {
+                    dinosaur.setX(dinosaur.getX() - DINO_SPEED);
+                }
             }
+
+            // Mantém o dinossauro no nível do chão quando não está pulando
+            dinosaur.setY(SCREEN_HEIGHT - DINO_HEIGHT - 1);
+
         }
 
-        // Mantém o dinossauro no nível do chão
-        dinosaur.setY(SCREEN_HEIGHT - DINO_HEIGHT - 1);
-
-        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+        // Pausa comum para ambos os casos
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
 }
 
@@ -49,7 +64,7 @@ void DinosaurThread::moveHorizontal() {
 
     int currentX = dinosaur.getX();
     if (dinosaur.getDirection() == 'R') {
-        if (currentX < SCREEN_WIDTH - 40) {
+        if (currentX < DINO_WIDTH - 40) {
             dinosaur.setX(currentX + 1);
         }
         else {
@@ -67,25 +82,42 @@ void DinosaurThread::moveHorizontal() {
 }
 
 void DinosaurThread::jump() {
-    int currentY, jumpHeight;
+    const int MIN_JUMP = 3;
+    const int MAX_JUMP = 14;
+    const int JUMP_HEIGHT = (rand() % (MAX_JUMP - MIN_JUMP + 1)) + MIN_JUMP;
+
+    
+    const int JUMP_SPEED = 2;  
+    const int FRAME_DELAY = 16;   // ~60 FPS
+
+    int startY = SCREEN_HEIGHT - DINO_HEIGHT - 1;
+    int currentY = startY;
+
+    // Fase de subida do pulo
+    for (int y = 0; y < JUMP_HEIGHT && GameState::isGameRunning(); y += JUMP_SPEED) {
+        {
+            std::lock_guard<std::mutex> lock(dinoMutex);
+            currentY = startY - y;
+            dinosaur.setY(currentY);
+        }
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(FRAME_DELAY));
+    }
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(50 + JUMP_HEIGHT * 5));
+
+    for (int y = JUMP_HEIGHT; y > 0 && GameState::isGameRunning(); y -= JUMP_SPEED) {
+        {
+            std::lock_guard<std::mutex> lock(dinoMutex);
+            currentY = startY - y;
+            dinosaur.setY(currentY);
+        }
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(FRAME_DELAY));
+    }
 
     {
         std::lock_guard<std::mutex> lock(dinoMutex);
-        currentY = dinosaur.getY();
-        jumpHeight = (rand() % 3) + 2;
-    }  // Libera o mutex
-
-    // Subida
-    for (int i = 0; i < jumpHeight && GameState::isGameRunning(); i++) {
-        {
-            std::lock_guard<std::mutex> lock(dinoMutex);
-            dinosaur.setY(currentY - i);
-        }  // Libera o mutex durante o sleep
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    }
-
-    for (int i = jumpHeight; i > 0 && GameState::isGameRunning(); i--) {
-        dinosaur.setY(currentY - i + 1);
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        dinosaur.setY(startY);
     }
 }

@@ -13,14 +13,11 @@ void InputThread::operator()() {
             if (GetAsyncKeyState(VK_DOWN) & 0x8000) {
                 moveHelicopter('D');
             }
-            if (GetAsyncKeyState(VK_SPACE) & 0x8000) {
-                shootMissile();
-            }
             if (GetAsyncKeyState('X') & 0x8000) {
                 GameState::setGameRunning(false);
             }
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
     }
 }
 
@@ -32,31 +29,15 @@ void InputThread::moveHelicopter(char direction) {
     switch (direction) {
     case 'U':
         if (currentY > 0) {
-            RenderManager::eraseHelicopter(helicopter.getX(), currentY);
             helicopter.setY(currentY - HELICOPTER_SPEED);
         }
         break;
     case 'D':
         if (currentY < SCREEN_HEIGHT - 8) {
-            RenderManager::eraseHelicopter(helicopter.getX(), currentY);
             helicopter.setY(currentY + HELICOPTER_SPEED);
         }
         break;
     }
 }
 
-void InputThread::shootMissile() {
-    std::lock_guard<std::mutex> lock(missileMutex);
-    if (helicopter.getMissiles() > 0) {
-        for (auto& missile : missiles) {
-            if (!missile.isActive()) {
-                missile.setX(helicopter.getX() + 5);  // Sempre atira para a direita
-                missile.setY(helicopter.getY());
-                missile.setActive(true);
-                missile.setDirection('R');  // Sempre atira para a direita
-                helicopter.removeMissile();
-                break;
-            }
-        }
-    }
-}
+

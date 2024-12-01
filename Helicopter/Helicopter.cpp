@@ -15,8 +15,8 @@ void Helicopter::setY(int newY) {
     if (newY < 0) {
         y = 0;
     }
-    else if (newY > SCREEN_HEIGHT - 20) {
-        y = SCREEN_HEIGHT - 20;
+    else if (newY > SCREEN_HEIGHT - 8) {
+        y = SCREEN_HEIGHT - 8;
     }
     else {
         y = newY;

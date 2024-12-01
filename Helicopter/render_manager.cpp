@@ -154,7 +154,6 @@ static const char* HELICOPTER_FRAMES[] = {
 };
 
 void RenderManager::moveHelicopter(int x, int y) {
-    std::lock_guard<std::mutex> lock(ConsoleManeger::getMutex());
 
     RenderManager::eraseHelicopter(x, y);
 

@@ -9,7 +9,7 @@ namespace GameConstants {  // Coloca as constantes em um namespace para evitar c
     constexpr int SCREEN_HEIGHT = 33;
     constexpr int MAX_MISSILES = 10;
     constexpr int MAX_DINOSAURS = 3;
-    constexpr int HELICOPTER_SPEED = 3;
+    constexpr int HELICOPTER_SPEED = 1;
     constexpr int DINO_SPEED = 1;
     constexpr int TRUCK_SPEED = 2;
     constexpr int DEPOT_WIDTH = 50;

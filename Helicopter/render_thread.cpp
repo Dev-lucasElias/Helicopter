@@ -9,27 +9,27 @@ RenderThread::RenderThread(Helicopter& h, std::vector<Missile>& m, std::vector<D
 void RenderThread::operator()() {
     int lastX = helicopter.getX();
     int lastY = helicopter.getY();
+    
 
     while (GameState::isGameRunning()) {
 
+        
+
+        //Limpa rastro do helicoptero
         if (lastX != helicopter.getX() || lastY != helicopter.getY()) {
             RenderManager::drawScene(lastX - 2, lastY, lastX + 20, lastY + 8);  // Área afetada pelo helicóptero
             lastX = helicopter.getX();
             lastY = helicopter.getY();
         }
-
-
-
         if (helicopter.getY() >= 0 &&
             helicopter.getY() <= SCREEN_HEIGHT - 8) {
             RenderManager::moveHelicopter(5, helicopter.getY());
         }
 
-        // Desenha depósito
-        RenderManager::drawDepot(116, 20);
 
+
+        //Renderiza dinoosauro
         {
-            std::lock_guard<std::mutex> lock(dinoMutex);
             for (const auto& dino : dinosaurs) {
                 if (dino.isAlive() &&
                     dino.getY() >= 0 &&
@@ -43,6 +43,6 @@ void RenderThread::operator()() {
                 }
             }
         }
-        ConsoleManeger::delay(200);  // Delay para controlar FPS
+        ConsoleManeger::delay(10);  // Delay para controlar FPS
     }
 }
