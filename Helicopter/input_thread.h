@@ -18,13 +18,15 @@ private:
     Helicopter& helicopter;
     std::vector<Missile>& missiles;
     std::mutex& missileMutex;
+    std::mutex& helicopterMutex;
 
     void moveHelicopter(char direction);
     void shootMissile();
 
 public:
-    InputThread(Helicopter& h, std::vector<Missile>& m, std::mutex& mm);
+    InputThread(Helicopter& h, std::vector<Missile>& m, std::mutex& mm, std::mutex& hm);
     void operator()();
+    
 };
 
 #endif

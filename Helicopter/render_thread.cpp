@@ -11,11 +11,8 @@ void RenderThread::operator()() {
     int lastY = helicopter.getY();
 
     while (GameState::isGameRunning()) {
-        // Se a posição do helicóptero mudou, precisamos limpar a posição anterior
-        RenderSync::beginRender();
 
         if (lastX != helicopter.getX() || lastY != helicopter.getY()) {
-            RenderManager::eraseHelicopter(lastX, lastY);
             RenderManager::drawScene(lastX - 2, lastY, lastX + 20, lastY + 8);  // Área afetada pelo helicóptero
             lastX = helicopter.getX();
             lastY = helicopter.getY();
@@ -23,16 +20,9 @@ void RenderThread::operator()() {
 
 
 
-        if (helicopter.getX() >= 0 &&
-            helicopter.getX() <= SCREEN_WIDTH - 20 &&
-            helicopter.getY() >= 0 &&
+        if (helicopter.getY() >= 0 &&
             helicopter.getY() <= SCREEN_HEIGHT - 8) {
-            if (helicopter.getDirection() == 'R') {
-                RenderManager::moveHelicopterRight(helicopter.getX(), helicopter.getY());
-            }
-            else {
-                RenderManager::moveHelicopterLeft(helicopter.getX(), helicopter.getY());
-            }
+            RenderManager::moveHelicopter(5, helicopter.getY());
         }
 
         // Desenha depósito
@@ -43,7 +33,7 @@ void RenderThread::operator()() {
             for (const auto& dino : dinosaurs) {
                 if (dino.isAlive() &&
                     dino.getY() >= 0 &&
-                    dino.getY() + DINO_HEIGHT <= SCREEN_HEIGHT) {
+                    dino.getY() - DINO_HEIGHT <= SCREEN_HEIGHT) {
                     if (dino.getDirection() == 'R') {
                         RenderManager::moveDinoRight(0, dino.getX(), dino.getY());
                     }
@@ -53,7 +43,6 @@ void RenderThread::operator()() {
                 }
             }
         }
-        RenderSync::endRender();
-        ConsoleManeger::delay(50);  // Delay para controlar FPS
+        ConsoleManeger::delay(200);  // Delay para controlar FPS
     }
 }

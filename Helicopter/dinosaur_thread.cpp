@@ -30,9 +30,9 @@ void DinosaurThread::operator()() {
         }
 
         // Mantém o dinossauro no nível do chão
-        dinosaur.setY(GROUND_LEVEL - DINO_HEIGHT + 1);
+        dinosaur.setY(SCREEN_HEIGHT - DINO_HEIGHT - 1);
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
     }
 }
 

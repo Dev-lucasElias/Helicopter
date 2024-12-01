@@ -1,18 +1,12 @@
 // input_thread.cpp
 #include "input_thread.h"
 
-InputThread::InputThread(Helicopter& h, std::vector<Missile>& m, std::mutex& mm)
-    : helicopter(h), missiles(m), missileMutex(mm) {}
+InputThread::InputThread(Helicopter& h, std::vector<Missile>& m, std::mutex& mm, std::mutex& hm)
+    : helicopter(h), missiles(m), missileMutex(mm), helicopterMutex(hm) {}
 
 void InputThread::operator()() {
     while (GameState::isGameRunning()) {
         if (!helicopter.getIsReloading()) {
-            if (GetAsyncKeyState(VK_LEFT) & 0x8000) {
-                moveHelicopter('L');
-            }
-            if (GetAsyncKeyState(VK_RIGHT) & 0x8000) {
-                moveHelicopter('R');
-            }
             if (GetAsyncKeyState(VK_UP) & 0x8000) {
                 moveHelicopter('U');
             }
@@ -26,67 +20,40 @@ void InputThread::operator()() {
                 GameState::setGameRunning(false);
             }
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 }
 
 void InputThread::moveHelicopter(char direction) {
     std::lock_guard<std::mutex> lock(missileMutex);
-    //RenderSync::beginRender();
 
-    // Guarda a posição atual antes de mover
-    int currentX = helicopter.getX();
     int currentY = helicopter.getY();
 
     switch (direction) {
-    case 'L':
-        if (helicopter.getX() > 0) {
-            // Limpa posição atual
-            RenderManager::eraseHelicopter(currentX, currentY);
-            // Move
-            helicopter.setX(helicopter.getX() - HELICOPTER_SPEED);
-            helicopter.setDirection('L');
-        }
-        break;
-    case 'R':
-        if (helicopter.getX() < SCREEN_WIDTH - 20) {
-            // Limpa posição atual
-            RenderManager::eraseHelicopter(currentX, currentY);
-            // Move
-            helicopter.setX(helicopter.getX() + HELICOPTER_SPEED);
-            helicopter.setDirection('R');
-        }
-        break;
     case 'U':
-        if (helicopter.getY() > 0) {
-            // Limpa posição atual
-            RenderManager::eraseHelicopter(currentX, currentY);
-            // Move
-            helicopter.setY(helicopter.getY() - HELICOPTER_SPEED);
+        if (currentY > 0) {
+            RenderManager::eraseHelicopter(helicopter.getX(), currentY);
+            helicopter.setY(currentY - HELICOPTER_SPEED);
         }
         break;
     case 'D':
-        if (helicopter.getY() < SCREEN_HEIGHT - 20) {
-            // Limpa posição atual
-            RenderManager::eraseHelicopter(currentX, currentY);
-            // Move
-            helicopter.setY(helicopter.getY() + HELICOPTER_SPEED);
+        if (currentY < SCREEN_HEIGHT - 8) {
+            RenderManager::eraseHelicopter(helicopter.getX(), currentY);
+            helicopter.setY(currentY + HELICOPTER_SPEED);
         }
         break;
     }
-   // RenderSync::endRender();
 }
 
 void InputThread::shootMissile() {
     std::lock_guard<std::mutex> lock(missileMutex);
-
     if (helicopter.getMissiles() > 0) {
         for (auto& missile : missiles) {
             if (!missile.isActive()) {
-                missile.setX(helicopter.getX() + (helicopter.getDirection() == 'R' ? 5 : -1));
+                missile.setX(helicopter.getX() + 5);  // Sempre atira para a direita
                 missile.setY(helicopter.getY());
                 missile.setActive(true);
-                missile.setDirection(helicopter.getDirection());
+                missile.setDirection('R');  // Sempre atira para a direita
                 helicopter.removeMissile();
                 break;
             }

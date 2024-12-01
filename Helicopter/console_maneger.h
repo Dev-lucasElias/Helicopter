@@ -18,10 +18,10 @@ public:
     static void gotoxy(int x, int y);
     static void delay(unsigned int mseconds);
     static void clearScreen();
-    static void getup();
 
     // Nova função que combina gotoxy e printf em uma operação atômica
     static void print(int x, int y, const char* format, ...);
+    static void colorPrint(int x, int y, int textColor, int bgColor, const char* format, ...);
 
     // Método para obter o mutex (caso outras classes precisem sincronizar com o console)
     static std::mutex& getMutex() { return consoleMutex; }

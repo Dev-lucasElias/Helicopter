@@ -24,8 +24,7 @@ int main() {
     RenderManager::drawScene();
 
     // Criação dos objetos
-    Helicopter helicopter;
-    helicopter.setX(SCREEN_WIDTH / 2);  // Centro da tela
+    Helicopter helicopter;  // Centro da tela
     helicopter.setY(SCREEN_HEIGHT / 2); // Meio da altura
     Truck truck;
     Depot depot;
@@ -35,18 +34,19 @@ int main() {
     // Mutexes
     mutex missileMutex;
     mutex dinoMutex;
+    mutex helicopterMutex;
 
 
     // Inicializa posições iniciais
     dinosaurs[0].setX(60);
-    dinosaurs[0].setY(24);
+    dinosaurs[0].setY(43);
     dinosaurs[0].setAlive(true);
 
     // Criar e iniciar threads
     vector<thread> threads;
     threads.emplace_back(DinosaurThread(dinosaurs[0], dinoMutex));
     threads.emplace_back(HelicopterThread(helicopter, depot, missiles, missileMutex));
-    threads.emplace_back(InputThread(helicopter, missiles, missileMutex));
+    threads.emplace_back(InputThread(helicopter, missiles, missileMutex, helicopterMutex));
     //threads.emplace_back(TruckThread(truck, depot));
     threads.emplace_back(RenderThread(helicopter, missiles, dinosaurs, truck, depot, missileMutex, dinoMutex));
 

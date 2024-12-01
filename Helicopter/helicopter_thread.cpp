@@ -15,6 +15,6 @@ void HelicopterThread::operator()() {
                 helicopter.setMissiles(MAX_MISSILES);
             }
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
 }

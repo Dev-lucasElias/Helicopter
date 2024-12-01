@@ -20,8 +20,7 @@ public:
     // Funções de movimento
     static void moveDinoRight(int jump, int x, int y);
     static void moveDinoLeft(int jump, int x, int y);
-    static void moveHelicopterRight(int x, int y);
-    static void moveHelicopterLeft(int x, int y);
+    static void moveHelicopter(int x, int y);
     static void moveTruckRight(int x, int y);
     static void moveTruckLeft(int x, int y);
     static void moveMissileRight(int x, int y);
@@ -38,6 +37,7 @@ private:
     static const int SKY_COLOR = 1;    // Azul
     static const int GRASS_COLOR = 2;  // Verde
     static const int DINO_COLOR = 3;   // Verde claro
+    static int posicaoHelice;
 };
 
 #endif // RENDER_MANAGER_H

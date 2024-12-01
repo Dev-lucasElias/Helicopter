@@ -1,30 +1,43 @@
-// helicopter.h
 #ifndef HELICOPTER_H
 #define HELICOPTER_H
 
-#include "gameobject.h"
 #include "depot.h"
+#include <algorithm>
 
-class Helicopter : public GameObject {
+class Helicopter {
 private:
+    static const int MIN_MISSILES_WARNING = 3;
+    static const int FIXED_X = 5;
+
+    int y;
     int missiles;
     bool alive;
     bool needReload;
     bool isReloading;
 
 public:
-    // Construtor e métodos que já tem implementação
     Helicopter();
-    int getMissiles() const;
-    bool isAlive() const;
-    bool needsReload() const;
-    bool getIsReloading() const;
-    void setMissiles(int count);
-    void setAlive(bool state);
-    void setNeedReload(bool state);
-    void setIsReloading(bool state);
+
+    // Getters
+    int getX() const { return FIXED_X; }
+    int getY() const { return y; }
+    int getMissiles() const { return missiles; }
+    bool isAlive() const { return alive; }
+    bool needsReload() const { return needReload; }
+    bool getIsReloading() const { return isReloading; }
+
+    // Setters
+    void setY(int newY);
+    void setMissiles(int count) { missiles = count; }
+    void setAlive(bool state) { alive = state; }
+    void setNeedReload(bool state) { needReload = state; }
+    void setIsReloading(bool state) { isReloading = state; }
+
+    // Manipulação de mísseis
     void addMissiles(int count);
     void removeMissile();
+
+    // Checagem de proximidade
     bool isNearDepot(const Depot& depot) const;
 };
 
