@@ -247,24 +247,15 @@ void RenderManager::eraseTruckLeft(int x, int y) {
     }
 }
 void RenderManager::moveMissileRight(int x, int y) {
-    // Move o míssil da esquerda para a direita
-    for (; x < 328; x++) {
-        ConsoleManeger::setColor(4, 4);
-        ConsoleManeger::print(x, y, "■");
-        ConsoleManeger::delay(10);
-        // Apaga a posição anterior usando a cor do céu
-        ConsoleManeger::setColor(SKY_COLOR, SKY_COLOR);
-        ConsoleManeger::print(x, y, " ");
+    // Renderiza apenas uma posição do míssil, sem loop
+    ConsoleManeger::colorPrint(x, y + 2, 4, 4, "%c", 219);
+
+    // Limpa a posição anterior
+    if (y < SCREEN_HEIGHT * 2 / 3) {
+        ConsoleManeger::colorPrint(x - 1, y + 2, SKY_COLOR, SKY_COLOR, "%c", 219);
+    }
+    else {
+        ConsoleManeger::colorPrint(x - 1, y + 2, GRASS_COLOR, GRASS_COLOR, "%c", 219);
     }
 }
 
-void RenderManager::moveMissileLeft(int x, int y) {
-    // Move o míssil da direita para a esquerda
-    for (; x >= 0; x--) {
-        ConsoleManeger::setColor(4, 4);
-        ConsoleManeger::print(x, y, "■");
-        ConsoleManeger::delay(10);
-        ConsoleManeger::setColor(SKY_COLOR, SKY_COLOR);
-        ConsoleManeger::print(x, y, " ");
-    }
-}

@@ -10,6 +10,8 @@ void RenderThread::operator()() {
     int lastX = helicopter.getX();
     int lastY = helicopter.getY();
     
+    // Vamos manter um registro das últimas posições dos mísseis para limpar seus rastros
+    std::vector<std::pair<int, int>> lastMissilePositions;
 
     while (GameState::isGameRunning()) {
 
@@ -26,7 +28,59 @@ void RenderThread::operator()() {
             RenderManager::moveHelicopter(5, helicopter.getY());
         }
 
+        // Atualiza e renderiza mísseis
+        {
+            std::lock_guard<std::mutex> lock(missileMutex);
+            for (auto& missile : missiles) {
+                if (missile.isActive()) {
+                    // Guarda posição atual
+                    Position oldPos = missile.getPosition();
 
+                    // Atualiza posição
+                    missile.update();
+                    Position newPos = missile.getPosition();
+
+                    // Limpa uma área um pouco maior que o míssil para garantir que não fiquem rastros
+                    for (int i = -1; i <= 1; i++) {  // Limpa uma área de 3 pixels de largura
+                        if (oldPos.y < SCREEN_HEIGHT * 2 / 3) {
+                            ConsoleManeger::colorPrint(
+                                static_cast<int>(oldPos.x) + i,  // Inclui pixels adjacentes
+                                static_cast<int>(oldPos.y + 2),
+                                SKY_COLOR, SKY_COLOR, "%c", 219
+                            );
+                        }
+                        else {
+                            ConsoleManeger::colorPrint(
+                                static_cast<int>(oldPos.x) + i,
+                                static_cast<int>(oldPos.y + 2),
+                                GRASS_COLOR, GRASS_COLOR, "%c", 219
+                            );
+                        }
+                    }
+
+                    // Renderiza na nova posição apenas se estiver dentro da tela
+                    if (newPos.x < SCREEN_WIDTH) {
+                        ConsoleManeger::colorPrint(
+                            static_cast<int>(newPos.x),
+                            static_cast<int>(oldPos.y + 2),
+                            4, 4, "%c", 219
+                        );
+                    }
+                    else {
+                        missile.deactivate();
+                    }
+                }
+            }
+
+            // Remove mísseis inativos
+            missiles.erase(
+                std::remove_if(missiles.begin(), missiles.end(),
+                    [](const Missile& m) { return !m.isActive(); }),
+                missiles.end()
+            );
+        }
+
+        
 
         //Renderiza dinoosauro
         {

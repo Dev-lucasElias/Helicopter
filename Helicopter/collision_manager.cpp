@@ -4,8 +4,8 @@
 #include <cstdlib> // para abs()
 
 bool CollisionManager::checkMissileHit(const Missile& missile, const Dinosaur& dino) {
-    return (abs(missile.getX() - dino.getX()) < 10 &&
-        abs(missile.getY() - (dino.getY() + dino.getHeadHeight())) < 5);
+    return (abs(missile.getPosition().x - dino.getX()) < 10 &&
+        abs(missile.getPosition().y - (dino.getY() + dino.getHeadHeight())) < 5);
 }
 
 bool CollisionManager::checkHelicopterCollision(const Helicopter& heli, const Dinosaur& dino) {

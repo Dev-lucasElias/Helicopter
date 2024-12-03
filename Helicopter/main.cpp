@@ -50,7 +50,7 @@ int main() {
     threads.emplace_back(DinosaurThread(dinosaurs[0], dinoMutex));
     threads.emplace_back(HelicopterThread(helicopter, depot, missiles, missileMutex));
     threads.emplace_back(InputThread(helicopter, missiles, missileMutex, helicopterMutex));
-    //threads.emplace_back(TruckThread(truck, depot));
+    threads.emplace_back(InputThread(helicopter, missiles, missileMutex, helicopterMutex));
     threads.emplace_back(RenderThread(helicopter, missiles, dinosaurs, truck, depot, missileMutex, dinoMutex));
 
     

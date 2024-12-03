@@ -1,18 +1,31 @@
-// missile.h
+// Missile.h
 #ifndef MISSILE_H
 #define MISSILE_H
 
-#include "gameobject.h"
+#include <mutex>
 
-class Missile : public GameObject {
+struct Position {
+    double x;
+    double y;
+};
+
+class Missile {
 private:
-	bool active;
+    Position position;
+    double velocityX;
+    double velocityY;
+    bool active;
+    double speed;
 
 public:
-	Missile();
+    
+    Missile(Position startPos, double targetX, double targetY, double missileSpeed);
+    void update();
+    bool isActive() const { return active; }
+    Position getPosition() const { return position; }
+    void deactivate() { active = false; }
+    Missile();
 
-	bool isActive() const;
-	void setActive(bool state);
 };
 
 #endif

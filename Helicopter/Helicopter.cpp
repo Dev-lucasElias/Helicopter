@@ -5,7 +5,7 @@
 
 Helicopter::Helicopter()
     : y(SCREEN_HEIGHT / 2),
-    missiles(10),
+    missileCount(10),
     isReloading(false),
     alive(true),
     needReload(false) {}
@@ -24,16 +24,17 @@ void Helicopter::setY(int newY) {
 }
 
 void Helicopter::addMissiles(int count) {
-    missiles += count;
-    if (missiles >= MIN_MISSILES_WARNING) {
+    std::lock_guard<std::mutex> lock(missileMutex);
+    missileCount += count;
+    if (missileCount >= MIN_MISSILES_WARNING) {
         needReload = false;
     }
 }
 
 void Helicopter::removeMissile() {
-    if (missiles > 0) {
-        missiles--;
-        if (missiles < MIN_MISSILES_WARNING) {
+    if (missileCount > 0) {
+        missileCount--;
+        if (missileCount < MIN_MISSILES_WARNING) {
             needReload = true;
         }
     }
@@ -44,4 +45,25 @@ bool Helicopter::isNearDepot(const Depot& depot) const {
     // está próximo no eixo Y
     return abs(FIXED_X - depot.getX()) < DEPOT_WIDTH / 2 &&
         abs(y - depot.getY()) < DEPOT_HEIGHT / 2;
+}
+
+bool Helicopter::fireMissile(double targetX, double targetY) {
+    std::lock_guard<std::mutex> lock(missileMutex);
+
+    if (missileCount <= 0) {
+        return false;  // Sem mísseis disponíveis
+    }
+
+    // Decrementa contador de mísseis
+    missileCount--;
+
+    // Aqui você pode criar e adicionar o míssil ao seu sistema de gerenciamento de entidades
+    // Por exemplo:
+    // gameWorld->addEntity(new Missile(position, targetX, targetY, 10.0));
+
+    return true;
+}
+
+int Helicopter::getMissileCount() const {
+    return missileCount;  // Leitura atômica, não precisa de mutex
 }

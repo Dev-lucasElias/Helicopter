@@ -88,7 +88,7 @@ void DinosaurThread::jump() {
 
     
     const int JUMP_SPEED = 2;  
-    const int FRAME_DELAY = 16;   // ~60 FPS
+    const int FRAME_DELAY = 16;   
 
     int startY = SCREEN_HEIGHT - DINO_HEIGHT - 1;
     int currentY = startY;
